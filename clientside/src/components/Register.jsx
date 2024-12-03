@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
-    email: "",
+    email: localStorage.getItem('email') || "",
     pwd: "",
     cpwd: "",
-  });
+  })
+  formData.email=localStorage.getItem('email')
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,7 +19,20 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      console.log(formData)
+      const res=await axios.post("http://localhost:3005/api/adduser",formData)
+      console.log(res)
+      if(res.status==201){
+        alert(res.data.msg)
+        localStorage.removeItem('email')
+        navigate('/login')
+      }else{
+        alert(res.data.msg)
+      }
+    } catch (error) {
+      
+    }
   };
 
   return (
@@ -36,17 +51,6 @@ const Register = () => {
               value={formData.username}
               onChange={handleChange}
               placeholder="Enter your username"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Email Address</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
               required
             />
           </div>

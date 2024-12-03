@@ -32,7 +32,7 @@ export async function addUser(req, res) {
             console.log(error)
         })
     }else{
-        res.status(201).send({asd:"email already used "})
+        res.status(500).send({msg:"email already used "})
     }
 }
 
@@ -57,7 +57,7 @@ export async function login(req, res) {
 
 export async function verifyEmail(req,res) {
     const {email}=req.body
-    console.log(email);
+    // console.log(email);
     if (!(email))  {
         return res.status(500).send({msg:"fields are empty"})
     }
@@ -74,13 +74,13 @@ export async function verifyEmail(req,res) {
      background-color: gainsboro;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; ">
         <h2>Email verification</h2>
         <p>Click This Button to verify its you</p>
-        <button style="padding: 5px 15px; border: none; border-radius: 4px; 
+        <a href="http://localhost:5173/register"><button style="padding: 5px 15px; border: none; border-radius: 4px; 
         background-color: white;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        font-size: 18px; color: red; font-style: italic;" >Verify</button>
+        font-size: 18px; color: red; font-style: italic;" >Verify</button></a>
     </div>`, // html body
         })
         console.log("Message sent: %s", info.messageId)
-        res.status(201).send({msg:"Verificaton email sented"})
+        res.status(200).send({msg:"Verificaton email sented"})
     }else{
         return res.status(500).send({msg:"email exist"})
     }
