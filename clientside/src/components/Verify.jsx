@@ -1,31 +1,30 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import "./Verify.css"
 import axios from 'axios'
 
 const Verify = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("")
 
   const handleChange = (e) => {
-    setEmail(e.target.value);
-  };
+    setEmail(e.target.value)
+  }
   const handleSubmit =async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       console.log(email)
       const res=await axios.post("http://localhost:3005/api/verify",{email})
       console.log(res)
       if (res.status==200) {
         alert(res.data.msg)
-        localStorage.setItem('email', email);
+        localStorage.setItem('email', email)
       }else{
+        // alert("email already exist")
         alert(res.data.msg)
       }
-      
     } catch (error) {
       console.log(error)
-      
     }
-  };
+  }
 
   return (
     <div className="verify-container">
@@ -38,7 +37,7 @@ const Verify = () => {
         <button type="submit" className="btn-verify">  Verify </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Verify;
+export default Verify

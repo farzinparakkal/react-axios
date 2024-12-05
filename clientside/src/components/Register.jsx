@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import "./Register.css";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import "./Register.css"
+import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 
 const Register = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: "",
     email: localStorage.getItem('email') || "",
@@ -14,11 +14,11 @@ const Register = () => {
   formData.email=localStorage.getItem('email')
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       console.log(formData)
       const res=await axios.post("http://localhost:3005/api/adduser",formData)
@@ -82,7 +82,7 @@ const Register = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
