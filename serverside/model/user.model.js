@@ -6,8 +6,4 @@ const userSchema = new mongoose.Schema({
     otp:{type:Number},
 });
 
-
-
-
-
 export default mongoose.model.user||mongoose.model('user',userSchema)

@@ -10,6 +10,10 @@ import Nav from "./components/Nav"
 import Profile from "./components/Profile"
 import AddData from "./components/AddData"
 import EditUserData from "./components/EditUserData"
+import AddPost from "./components/AddPost"
+import ViewUserPost from "./components/ViewUserPost"
+import ViewPost from "./components/ViewPost"
+import EditPost from "./components/EditPost"
 
 function App() {
   const [user, setUser] = useState("")
@@ -26,6 +30,10 @@ function App() {
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/addData" element={<AddData />}></Route>
           <Route path="/editUserData" element={<EditUserData />}></Route>
+          <Route path="/addPost" element={<AddPost />}></Route>
+          <Route path="/viewUserPost/:id" element={<ViewUserPost />}></Route>
+          <Route path="/viewPost/:id" element={<ViewPost />}></Route>
+          <Route path="/editPost/:id" element={<EditPost />}></Route>
         </Routes>
       </BrowserRouter>
     </>

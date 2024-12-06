@@ -11,5 +11,11 @@ router.route('/getuser').get(Auth,rh.getUser)
 router.route('/getuserData').get(Auth,rh.getUserData)
 router.route('/adduserData').post(Auth,rh.addUserData)
 router.route('/edituserData').put(Auth,rh.editUserData)
+router.route('/deleteData').delete(Auth,rh.deleteUser)
+router.route('/addPost').post(Auth,rh.addPost)
+router.route('/getPosts').get(Auth, rh.getPosts)
+router.route('/getPost/:id').get(Auth, rh.getPost)
+router.route('/deletePost/:id').delete(Auth, rh.deletePost)
+router.route('/getAllPosts').get(Auth, rh.getAllPosts)
 
 export default router

@@ -6,8 +6,4 @@ const userDataSchema = new mongoose.Schema({
     note:{type:String},
 });
 
-
-
-
-
 export default mongoose.model.userData||mongoose.model('userData',userDataSchema)

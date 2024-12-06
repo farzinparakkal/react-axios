@@ -19,7 +19,7 @@ const AddData = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
 
     if (!token) {
       alert("You are not logged in. Redirecting to login page.");

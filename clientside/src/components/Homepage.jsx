@@ -1,40 +1,75 @@
-import React, { useEffect } from "react"
-import axios from 'axios'
-import { useNavigate } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link,useNavigate } from "react-router-dom";
+import "./HomePage.css";
 
-const HomePage=({setUser})=>{
-    const navigate=useNavigate()
-    const getUser=async () => {
-        const token=localStorage.getItem('token')
-        if(!token){
-            navigate('/login')
+const HomePage = ({ setUser }) => {
+  const navigate = useNavigate();
+  const [posts, setPosts] = useState([]);
+  const token = localStorage.getItem("token");
+
+  const getUser = async () => {
+    if (!token) {
+      navigate("/login");
+    } else {
+      try {
+        const res = await axios.get("http://localhost:3005/api/getuser", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.status === 200) {
+          setUser(res.data.name);
+        } else {
+          navigate("/login");
         }
-        else{
-            try {
-                const res=await axios.get('http://localhost:3005/api/getuser', {headers: {'Authorization': `Bearer ${token}`}})
-                console.log(res);
-                
-                if (res.status==200) {
-                    setUser(res.data.name)
-                }
-                else{
-                    navigate('/login')
-                }
-            } catch (error) {
-                console.log(error)
-                location.reload()
-                navigate('/login')
-            }
-        }
+      } catch (error) {
+        console.error(error);
+        navigate("/login");
+      }
     }
-    useEffect(()=>{
-        getUser()
-    },[])
-    return(
-        <>
-        <div><h1>HomePage</h1></div>
-        </>
-    )
-}
+  };
+
+  const getPosts = async () => {
+    try {
+      const res = await axios.get("http://localhost:3005/api/getAllPosts", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.status === 200) {
+        setPosts(res.data.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+    getPosts();
+  }, []);
+
+  return (
+    <div className="homepage-container">
+      <div className="post-grid">
+        {posts.length === 0 ? (
+          <div>No posts available</div>
+        ) : (
+          posts.map((post) => (
+            <Link to={`/viewPost/${post._id}`}>
+                <div key={post._id} className="post-card">
+            {post.images && post.images.length > 0 && (
+              <img
+                src={post.images[0]}
+                alt={post.caption}
+                className="post-image"
+              />
+            )}
+            <div className="post-caption">{post.caption}</div>
+          </div>
+          </Link>  
+          ))
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default HomePage

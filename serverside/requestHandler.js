@@ -1,5 +1,6 @@
 import userSchema from "./model/user.model.js"
 import userDataSchema from "./model/userData.model.js"
+import postSchema from "./model/post.model.js"
 import nodemailer from "nodemailer"
 
 import bcrypt from "bcrypt"
@@ -100,10 +101,10 @@ export async function addUserData(req, res) {
     try {
       const { nickname, dob, note } = req.body
     await userDataSchema.create({userId:req.user.UserID,nickname,dob,note})
-      res.status(200).send({ message: "Data added successfully!" })
+      res.status(200).send({ msg: "Data added successfully!" })
     } catch (error) {
       console.error(error)
-      res.status(500).send({ message: "Failed to add data. Please try again." })
+      res.status(500).send({ msg: "Failed to add data. Please try again." })
     }
 }
   
@@ -111,9 +112,85 @@ export async function editUserData(req, res) {
     try {
       const { nickname, dob, note } = req.body
       const updatedData = await userDataSchema.updateOne({ userId: req.user.UserID },{ $set: { nickname, dob, note } },)
-      res.status(200).send({ message: "Data updated successfully!", data: updatedData })
+      res.status(200).send({ msg: "Data updated successfully!", data: updatedData })
     } catch (error) {
       console.error(error)
-      res.status(500).send({ message: "Failed to update data. Please try again." })
+      res.status(500).send({ msg: "Failed to update data. Please try again." })
     }
 }  
+
+export async function deleteUser(req, res) {
+  try {
+    await userDataSchema.deleteOne({userId:req.user.UserID})
+    await userSchema.deleteOne({ _id: req.user.UserID })
+    res.status(200).send({ msg: "Data deleted successfully!"})
+  } catch (error) {
+    console.error(error)
+    res.status(500).send({ msg: "Failed to delete data. Please try again." })
+  }
+} 
+
+export async function addPost(req, res) {
+  try {
+    // console.log(req.user.UserID)
+    const currentDate = new Date();
+    const date = currentDate.toLocaleDateString();
+    const time = currentDate.toLocaleTimeString(); 
+
+    const {caption,description,images}=req.body
+    const post = await postSchema.create({userId: req.user.UserID,caption,description,images,date,time});
+    res.status(200).send({ msg: "Post added successfully!", data: post })
+  } catch (error) {
+    console.error(error)
+    res.status(500).send({ msg: "Failed to add data. Please try again." })
+  }
+}
+
+export async function getPosts(req, res) {
+  try {
+    const posts = await postSchema.find({ userId: req.user.UserID });
+    if (!posts || posts.length === 0) {
+      return res.status(200).send({ msg: "No posts found", data: [] });
+    }
+    res.status(200).send({ data: posts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ msg: "Failed to fetch posts. Please try again." });
+  }
+}
+
+export async function getAllPosts(req, res) {
+  try {
+    const posts = await postSchema.find();
+    // if (!posts || posts.length === 0) {
+    //   return res.status(200).send({ msg: "No posts found", data: [] });
+    // }
+    res.status(200).send({ data: posts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ msg: "Failed to fetch posts. Please try again." });
+  }
+}
+
+export async function getPost(req, res) {
+  try {
+    const post = await postSchema.findOne({_id: req.params.id});
+    // if (!post) {
+    //   return res.status(404).send({ msg: "Post not found" });
+    // }
+    res.status(200).send({ post });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ msg: "Failed to fetch post. Try again later." });
+  }
+}
+
+export async function deletePost(req, res) {
+  try {
+    const post = await postSchema.deleteOne({_id: req.params.id});
+    res.status(200).send({ msg: "Post deleted successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ msg: "Failed to delete post. Try again later." });
+  }
+}
