@@ -75,7 +75,7 @@ const ViewUserPost = () => {
         </div>
       </div>
       <div className="post-actions">
-        <button onClick={() => navigate(`/editPost/${id}`)}>Edit</button>
+        {/* <button onClick={() => navigate(`/editPost/${id}`)}>Edit</button> */}
         <button onClick={deletePost}>Delete</button>
       </div>
     </div>

@@ -1,39 +1,52 @@
-import React, { useEffect, useState } from "react"
-import "./Register.css"
-import { useNavigate } from "react-router-dom"
-import axios from 'axios'
+import React, { useState } from "react";
+import "./Register.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
-    email: localStorage.getItem('email') || "",
+    email: localStorage.getItem("email") || "",
     pwd: "",
     cpwd: "",
-  })
-  formData.email=localStorage.getItem('email')
+    pic: "",
+  });
+  const [previewImage, setPreviewImage] = useState(null);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, pic: reader.result }); // Save Base64 string
+        setPreviewImage(reader.result); // Set preview image
+      };
+      reader.readAsDataURL(file); // Convert to Base64
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log(formData);
+    
     try {
-      console.log(formData)
-      const res=await axios.post("http://localhost:3005/api/adduser",formData)
-      console.log(res)
-      if(res.status==201){
-        alert(res.data.msg)
-        localStorage.removeItem('email')
-        navigate('/login')
-      }else{
-        alert(res.data.msg)
+      const res = await axios.post("http://localhost:3005/api/adduser", formData);
+      if (res.status === 201) {
+        alert(res.data.msg);
+        localStorage.removeItem("email");
+        navigate("/login");
+      } else {
+        alert(res.data.msg);
       }
     } catch (error) {
-      
+      console.error("Error during registration:", error);
     }
-  };
+ };
 
   return (
     <div className="register-page">
@@ -43,6 +56,17 @@ const Register = () => {
           <p>Fill in the details below to get started</p>
         </div>
         <form onSubmit={handleSubmit} method="post">
+          <div className="form-group">
+            {previewImage && (
+              <img
+                src={previewImage}
+                alt="Profile Preview"
+                style={{ marginTop: "10px", width: "100px", height: "100px", borderRadius: "50%" }}
+              />
+            )}
+            <label>Profile Picture</label>
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+          </div>
           <div className="form-group">
             <label>Username</label>
             <input
@@ -82,7 +106,7 @@ const Register = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

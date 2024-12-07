@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./Nav.css"
 
-const Nav = ({user}) => {
+const Nav = ({user,pic}) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
   const navigate = useNavigate()
 
@@ -40,10 +40,11 @@ const Nav = ({user}) => {
           </a>
         </button> */}
         <span className="username">{user}</span>
+        <div className="nav-img">
+          <img src={pic} alt="" />
+        </div>
         <div className="dropdown">
-          <button onClick={toggleDropdown} className="dropbtn">
-            ▼
-          </button>
+          <button onClick={toggleDropdown} className="dropbtn">▼</button>
           {isDropdownVisible && (
             <div className="dropdown-content">
               <a href="/profile">Profile</a>

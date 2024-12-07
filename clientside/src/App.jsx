@@ -17,12 +17,13 @@ import EditPost from "./components/EditPost"
 
 function App() {
   const [user, setUser] = useState("")
+  const [pic, setPic] = useState("")
   return (
     <>
       <BrowserRouter>
-        {user&& <Nav user={user}/>}
+        {user&& <Nav user={user} pic={pic}/>}
         <Routes>
-          <Route path="/" element={<HomePage setUser={setUser}/>}></Route>
+          <Route path="/" element={<HomePage setUser={setUser} setPic={setPic}/>}></Route>
           <Route path="/changepass" element={<ChangePass />}></Route>
           <Route path="/verify" element={<Verify />}></Route>
           <Route path="/register" element={<Register />}></Route>

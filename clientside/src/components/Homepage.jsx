@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link,useNavigate } from "react-router-dom";
 import "./HomePage.css";
 
-const HomePage = ({ setUser }) => {
+const HomePage = ({ setUser, setPic }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const token = localStorage.getItem("token");
@@ -17,7 +17,8 @@ const HomePage = ({ setUser }) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.status === 200) {
-          setUser(res.data.name);
+          setUser(res.data.name)
+          setPic(res.data.pic)
         } else {
           navigate("/login");
         }

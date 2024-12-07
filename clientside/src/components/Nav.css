@@ -9,7 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 5px 20px;
   background-color: #333;
   color: white;
 }
@@ -43,6 +43,19 @@
   font-size: 16px;
 }
 
+.nav-img{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav-img img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .dropdown {
   position: relative;
 }
