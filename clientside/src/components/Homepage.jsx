@@ -48,6 +48,7 @@ const HomePage = ({ setUser, setPic }) => {
   }, []);
 
   return (
+    <div className="body-home">
     <div className="homepage-container">
       <div className="post-grid">
         {posts.length === 0 ? (
@@ -56,7 +57,7 @@ const HomePage = ({ setUser, setPic }) => {
           posts.map((post) => (
             <Link to={`/viewPost/${post._id}`}>
                 <div key={post._id} className="post-card">
-            {post.images && post.images.length > 0 && (
+                    {post.images && post.images.length > 0 && (
               <img
                 src={post.images[0]}
                 alt={post.caption}
@@ -69,6 +70,7 @@ const HomePage = ({ setUser, setPic }) => {
           ))
         )}
       </div>
+    </div>
     </div>
   );
 };

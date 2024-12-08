@@ -75,12 +75,13 @@ const Profile = () => {
   };
 
   return (
+    <div className="body-profile">
     <div className="container">
       <div className="left-side">
         <form>
           <div className="form-group">
             <div className="image">
-              <img src="" alt="" />
+              <img src={userDetails?.pic} alt="" />
             </div>
             <div>Username: {userDetails?.username}</div>
             <div>Email: {userDetails?.email}</div>
@@ -94,40 +95,42 @@ const Profile = () => {
               <div>Note: {userData.note}</div>
             </div>
             <Link to={"/editUserData"}>
-              <button>Edit</button>
+              <button className="edit-btn">Edit</button>
             </Link>
           </>
         ) : (
           <>
             <div>Note: Not added, need to create !</div>
             <Link to={"/addData"}>
-              <button>Create</button>
+              <button className="create-btn">Create</button>
             </Link>
           </>
         )}
-        <button onClick={handleClick}>Delete</button>
+        <button onClick={handleClick} className="delete-btn">Delete</button>
       </div>
       <div className="right-side">
-        <Link to={"/addPost"}>
+        <Link to={"/addPost"} className="addpost-btn">
           <button>Add Post</button>
         </Link>
         {posts.length === 0 ? (
           <div>No post added</div>
         ) : (
-          posts.map((post, index) => (
-            <div key={index}>
+          <div className="right-post-card">
+          {posts.map((post, index) => (
+            <div key={index} className="show-post-card">
+              <Link to={`/viewUserPost/${post._id}`} >
               <img
                 src={posts[0].images[0]}
                 alt="First Post"
                 className="post-image"
               />
-              <Link to={`/viewUserPost/${post._id}`}>
-              <button>View</button>
               </Link>
               </div>
-              ))
+              ))}
+              </div>
               )}
       </div>
+    </div>
     </div>
   );
 };

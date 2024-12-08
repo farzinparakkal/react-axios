@@ -34,11 +34,6 @@ const Nav = ({user,pic}) => {
     <nav className="navbar">
       <div className="logo">Logo</div>
       <div className="right-section">
-        {/* <button className="login-button">
-          <a href="/login" style={{ color: "white", textDecoration: "none" }}>
-            Login
-          </a>
-        </button> */}
         <span className="username">{user}</span>
         <div className="nav-img">
           <img src={pic} alt="" />
